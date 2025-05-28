@@ -4,6 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image.prod.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.133.1/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.133.1/examples/js/loaders/GLTFLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image-three.prod.js"></script>
   <style>
     html, body {
@@ -21,7 +22,7 @@
   </style>
 </head>
 <body>
-  <p>Ver.1.0.0</p>
+  <p style="position: fixed; top: 10px; left: 10px; z-index: 1000; color: white;">Ver.1.0.0</p>
   <div id="container"></div>
 
   <script>
@@ -35,6 +36,10 @@
         });
 
         const {renderer, scene, camera} = mindarThree;
+        
+        // レンダラーの設定を追加
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.outputEncoding = THREE.sRGBEncoding;
 
         // ライティングの追加
         const light = new THREE.AmbientLight(0xffffff, 1.0);
@@ -48,14 +53,21 @@
         
         // GLTFローダーの作成と3Dモデルの読み込み
         const loader = new THREE.GLTFLoader();
-        loader.load("./assets/model/KuromojiBase.glb", (gltf) => {
-          const model = gltf;
-          model.scene.scale.set(0.3, 0.3, 0.3);
-          model.scene.rotation.y = Math.PI;
-          anchor.group.add(model.scene);
-        }, undefined, (error) => {
-          console.error('3Dモデルの読み込み中にエラーが発生しました:', error);
-        });
+        loader.load(
+          "./assets/model/KuromojiBase.glb",
+          (gltf) => {
+            const model = gltf;
+            model.scene.scale.set(0.3, 0.3, 0.3);
+            model.scene.rotation.y = Math.PI;
+            anchor.group.add(model.scene);
+          },
+          (progress) => {
+            console.log('読み込み進捗:', (progress.loaded / progress.total * 100) + '%');
+          },
+          (error) => {
+            console.error('3Dモデルの読み込み中にエラーが発生しました:', error);
+          }
+        );
 
         await mindarThree.start();
         renderer.setAnimationLoop(() => {
