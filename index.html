@@ -45,8 +45,8 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: calc(674px * 0.75);
-      height: calc(372px * 0.75);
+      width: calc(774px * 0.75);
+      height: calc(468px * 0.75);
       display: none;
       z-index: 999;
       overflow: hidden; /* ← ここが重要 */
@@ -107,7 +107,7 @@
       try {
         const mindarThree = new window.MINDAR.IMAGE.MindARThree({
           container: document.querySelector("#container"),
-          imageTargetSrc: "./assets/target/kuromoji.mind",
+          imageTargetSrc: "./assets/target/targets.mind",
           uiScanning: true,  // スキャンUIを有効化
           uiLoading: true,   // ローディングUIを有効化
         });
