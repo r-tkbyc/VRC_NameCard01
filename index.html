@@ -67,7 +67,7 @@
   </style>
 </head>
 <body>
-  <p style="position: fixed; top: 10px; left: 10px; z-index: 1000; color: white;">Ver.1.1.4</p>
+  <p style="position: fixed; top: 10px; left: 10px; z-index: 1000; color: white;">Ver.1.1.5</p>
   <div id="container"></div>
   
   <!-- ローディング画面 -->
@@ -110,7 +110,8 @@
         // GLTFローダーの作成と3Dモデルの読み込み
         const loader = new THREE.GLTFLoader();
 
-        const modelScale = 0.35;
+        const modelScale = 0.5;
+        const modelRotationX = -Math.PI / 2;
         const modelRotationY = 0;
         const modelPosition = { x: 0, y: 0, z: 0 };
 
@@ -121,6 +122,7 @@
             // model.scene.scale.set(0.3, 0.3, 0.3);
             // model.scene.rotation.y = Math.PI;
             model.scene.scale.set(modelScale, modelScale, modelScale);
+            model.scene.rotation.x = modelRotationX;
             model.scene.rotation.y = modelRotationY;
             model.scene.position.set(modelPosition.x, modelPosition.y, modelPosition.z);
             anchor.group.add(model.scene);
