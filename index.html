@@ -45,10 +45,12 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 220px; /* 任意サイズ */
+      width: 220px;
       height: 220px;
       display: none;
       z-index: 999;
+      overflow: hidden; /* ← ここが重要 */
+      border-radius: 12px; /* お好みで */
     }
 
     /* オーバーレイ画像 */
@@ -60,29 +62,30 @@
       top: 0;
       left: 0;
       z-index: 1;
+      pointer-events: none;
     }
 
-    /* スキャンライン（上にアニメーション） */
+    /* スキャンライン */
     .scan-line {
       position: absolute;
-      top: 0;
       left: 0;
       width: 100%;
-      height: 2px;
+      height: 3px;
       background: rgba(255, 255, 255, 0.8);
       z-index: 2;
       animation: scanning 2s linear infinite;
     }
 
-    /* アニメーション定義 */
+    /* アニメーション（ガイド枠内だけを上下） */
     @keyframes scanning {
-      0% { top: 0; }
-      100% { top: 100%; }
+      0% { top: 0px; }
+      50% { top: 100%; }
+      100% { top: 0px; }
     }
   </style>
 </head>
 <body>
-  <p style="position: fixed; top: 10px; left: 10px; z-index: 1000; color: white;">Ver.1.1.7</p>
+  <p style="position: fixed; top: 10px; left: 10px; z-index: 1000; color: white;">Ver.1.1.8</p>
 
   <div id="container"></div>
   
