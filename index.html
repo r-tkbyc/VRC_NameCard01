@@ -45,21 +45,36 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 200px;
-      height: 200px;
-      border: 2px solid #fff;
-      border-radius: 10px;
+      width: 220px; /* 任意サイズ */
+      height: 220px;
       display: none;
       z-index: 999;
     }
-    .scanning-ui::after {
-      content: '';
+
+    /* オーバーレイ画像 */
+    .scan-overlay {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    /* スキャンライン（上にアニメーション） */
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 2px;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.8);
+      z-index: 2;
       animation: scanning 2s linear infinite;
     }
+
+    /* アニメーション定義 */
     @keyframes scanning {
       0% { top: 0; }
       100% { top: 100%; }
@@ -67,7 +82,8 @@
   </style>
 </head>
 <body>
-  <p style="position: fixed; top: 10px; left: 10px; z-index: 1000; color: white;">Ver.1.1.6</p>
+  <p style="position: fixed; top: 10px; left: 10px; z-index: 1000; color: white;">Ver.1.1.7</p>
+
   <div id="container"></div>
   
   <!-- ローディング画面 -->
@@ -76,8 +92,11 @@
     <p>Please wait while the AR experience is being prepared</p>
   </div>
 
-  <!-- スキャンUI -->
-  <div class="scanning-ui" id="scanning"></div>
+  <!-- スキャンUI（拡張版） -->
+  <div class="scanning-ui" id="scanning">
+    <img src="./assets/guide/scan-overlay.png" class="scan-overlay" />
+    <div class="scan-line"></div>
+  </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
