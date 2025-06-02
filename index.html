@@ -109,12 +109,20 @@
 
         // GLTFローダーの作成と3Dモデルの読み込み
         const loader = new THREE.GLTFLoader();
+
+        const modelScale = 0.35;
+        const modelRotationY = Math.PI / 3;
+        const modelPosition = { x: 0, y: 0, z: 0 };
+
         loader.load(
           "./assets/model/KuromojiBase.glb",
           (gltf) => {
             const model = gltf;
-            model.scene.scale.set(0.3, 0.3, 0.3);
-            model.scene.rotation.y = Math.PI;
+            // model.scene.scale.set(0.3, 0.3, 0.3);
+            // model.scene.rotation.y = Math.PI;
+            model.scene.scale.set(modelScale, modelScale, modelScale);
+            model.scene.rotation.y = modelRotationY;
+            model.scene.position.set(modelPosition.x, modelPosition.y, modelPosition.z);
             anchor.group.add(model.scene);
             
             // モデル読み込み完了時にローディング画面を非表示
