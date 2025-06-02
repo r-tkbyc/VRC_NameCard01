@@ -86,7 +86,7 @@
   </style>
 </head>
 <body>
-  <p style="position: fixed; top: 10px; left: 10px; z-index: 1000; color: white;">Ver.1.2.6</p>
+  <p style="position: fixed; top: 10px; left: 10px; z-index: 1000; color: white;">Ver.1.2.7</p>
 
   <div id="container"></div>
   
@@ -148,12 +148,18 @@
             anchor.group.add(sceneObj);
 
             // dat.GUIの設定
-            const gui = new dat.GUI();
-            const controls = {
-              posX: 0, posY: 0, posZ: 0,
-              rotX: Math.PI / 2, rotY: 0, rotZ: 0,
+            const initialValues = {
+              posX: 0,
+              posY: 0,
+              posZ: 0,
+              rotX: Math.PI / 2,
+              rotY: 0,
+              rotZ: 0,
               scale: 0.5
             };
+            const controls = { ...initialValues };
+
+            const gui = new dat.GUI();
 
             gui.add(controls, 'posX', -2, 2).onChange(v => sceneObj.position.x = v);
             gui.add(controls, 'posY', -2, 2).onChange(v => sceneObj.position.y = v);
@@ -162,6 +168,14 @@
             gui.add(controls, 'rotY', 0, Math.PI * 2).onChange(v => sceneObj.rotation.y = v);
             gui.add(controls, 'rotZ', 0, Math.PI * 2).onChange(v => sceneObj.rotation.z = v);
             gui.add(controls, 'scale', 0.1, 3).onChange(v => sceneObj.scale.set(v, v, v));
+
+            gui.add({ reset: () => {
+              Object.assign(controls, initialValues);
+              sceneObj.position.set(controls.posX, controls.posY, controls.posZ);
+              sceneObj.rotation.set(controls.rotX, controls.rotY, controls.rotZ);
+              sceneObj.scale.set(controls.scale, controls.scale, controls.scale);
+              gui.__controllers.forEach(c => c.updateDisplay());
+            }}, 'reset').name("Reset to Default");
 
             // ローディング終了
             loadingScreen.classList.add('hidden');
